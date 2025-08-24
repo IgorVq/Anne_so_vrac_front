@@ -1,0 +1,60 @@
+/* Desktop: panels en 50% - 15px chacun pour laisser 30px au centre */
+@media (min-width: 768px) {
+  .left-panel,
+  .right-panel {
+    width: calc(50% - 10px);
+  }
+
+  .vertical-separator {
+    width: 20px;
+    background-color: transparent; /* ou ajoute une couleur si tu veux un trait */
+  }
+
+  .left-panel {
+    background-color: var(--third-color);
+    border-radius: 0px 20px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    min-height: 250px;
+  }
+
+  .right-panel {
+    background-color: var(--line);
+    overflow: hidden;
+    border-radius: 20px 0px 0px 20px;
+  }
+}
+
+/* Mobile : empilement vertical */
+@media (max-width: 767px) {
+  .left-panel,
+  .right-panel {
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    /* padding: 0px 10px 10px 10px !important; */
+  }
+
+    .left-panel {
+    background-color: var(--third-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    min-height: 250px;
+  }
+
+  .slider-container {
+    padding: 0px 10px !important;
+    gap: 8px;
+  }
+
+  .vertical-separator {
+    display: none;
+  }
+}

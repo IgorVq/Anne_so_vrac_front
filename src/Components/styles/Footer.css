@@ -1,0 +1,82 @@
+.footer-container {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    padding: 2rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 0.8rem;
+    padding: 30px;
+    /* margin-top: 30px; */
+}
+
+/* Chaque section prend environ un tiers en desktop */
+.footer-section {
+    flex: 1 1 30%;
+    max-width: 290px;
+    /* min-width: 250px; */
+    /* pour éviter que ce soit trop petit */
+}
+
+.footer-icons-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: fit-content;
+}
+
+.footer-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-icons {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    background-color: var(--secondary-color);
+    border-radius: 16px;
+}
+
+/* Sur mobile (moins de 768px), passage en colonne */
+@media (max-width: 767.98px) {
+    .footer-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .footer-section {
+        align-items: center;
+        text-align: center;
+        align-self: center;
+        flex: 1 1 100%;
+        min-width: auto;
+    }
+}
+
+/* Optionnel : espacement entre icônes réseaux */
+.social-icons>img:not(:last-child) {
+    margin-right: 0.5rem;
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+/* Liens en infos pratiques un peu espacés */
+.footer-section a {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,191 @@
+.product-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  /* Style par défaut pour desktop */
+  width: 210px;
+  height: 310px;
+}
+
+/* Style mobile - affichage horizontal */
+@media (max-width: 768px) {
+  .product-card {
+    width: 100%;
+    height: 140px;
+    margin-bottom: 15px;
+  }
+
+  .product-content {
+    flex-direction: row !important;
+    height: 100%;
+  }
+
+  .product-image {
+    width: 140px;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 12px 0 0 0;
+  }
+
+  .product-body {
+    flex: 1;
+    padding: 15px 15px 0 15px !important;
+    margin-top: 0 !important;
+    height: 100% !important;
+    align-items: flex-start !important;
+  }
+
+  .product-info {
+    width: 100%;
+  }
+
+  .product-title {
+    text-align: left !important;
+    font-size: 14px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .product-description {
+    text-align: left !important;
+    font-size: 11px !important;
+    margin-bottom: 10px !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-badges {
+    width: 140px !important;
+  }
+
+  /* Masquer le badge catégorie sur mobile */
+  .category-badge {
+    display: none !important;
+  }
+
+  /* S'assurer que le bouton prix reste en bas */
+  .price-container {
+    margin-top: auto !important;
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+    margin-bottom: 0 !important;
+    flex-shrink: 0;
+    width: calc(100% + 30px) !important;
+    border-radius: 0 0 12px 0 !important;
+  }
+}
+
+/* Style desktop - affichage vertical */
+@media (min-width: 769px) {
+  .product-content {
+    flex-direction: column !important;
+    height: 100%;
+  }
+
+  .product-image {
+    height: 180px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .product-body {
+    height: 130px;
+    padding: 15px 15px 0 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden;
+  }
+
+  .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 0;
+  }
+
+  .product-title {
+    text-align: center !important;
+    font-size: 16px !important;
+    margin-bottom: 8px !important;
+    line-height: 1.2 !important;
+    max-height: 2.4em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .product-description {
+    text-align: center !important;
+    font-size: 12px !important;
+    margin-bottom: 8px !important;
+    line-height: 1.3 !important;
+    max-height: 2.6em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  /* Supprimer l'écart en bas sur desktop aussi */
+  .price-container {
+    margin-top: auto !important;
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+    margin-bottom: 0 !important;
+    width: calc(100% + 30px) !important;
+    border-radius: 0 0 12px 12px !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15) !important;
+}
+
+.product-card .badge {
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.product-card .btn-choisir {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.product-card .btn-choisir:hover {
+  color: #FFE082;
+  text-decoration: none;
+}
+
+.product-card .price-container {
+  background: var(--primary-color);
+  border-radius: 15px;
+  padding: 10px 16px;
+  box-shadow: 0 2px 4px rgba(46, 125, 50, 0.3);
+}
+
+.product-card .price-container.discounted {
+  background: #188F51;
+}
+
+.product-card .price-separator {
+  height: 15px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 8px;
+}

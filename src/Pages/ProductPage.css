@@ -1,0 +1,60 @@
+.left-column, .right-column {
+    width: calc(50% - 20px);
+}
+
+.vertical-column-separator {
+    width: 40px;
+    background-color: transparent; /* ou ajoute une couleur si tu veux un trait */
+}
+
+.cooking-tips {
+    display: flex;
+    flex-direction: column;
+    background-color: #de9e431b;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Styles pour le layout mobile */
+.mobile-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.mobile-section {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 0 10px;
+}
+
+.mobile-section:last-child {
+    margin-bottom: 0;
+}
+
+.mobile-title {
+    margin-bottom: 0.8rem;
+}
+
+.btn:disabled {
+    background-color: gray;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+    .mobile-section {
+        padding: 0 5px;
+    }
+    
+    .mobile-layout .cooking-tips {
+        margin: 0;
+    }
+    
+    /* Augmenter la hauteur des boutons de taille sur mobile */
+    .product-size-buttons .product-size-button {
+        min-height: 50px !important;
+        height: 50px !important;
+        font-size: 1rem !important;
+        font-weight: 500 !important;
+    }
+}

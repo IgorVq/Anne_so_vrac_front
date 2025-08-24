@@ -1,0 +1,90 @@
+:root {
+    --primary-color: #242D33;
+    --secondary-color: #F0F0F0;
+    --third-color: #f8f9fa;
+    --line: #E6E6E6;
+    --red: #A8201A;
+}
+
+p {
+    margin: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+  }
+
+.main-content {
+    display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+main > .container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+:not(.btn-check)+.btn:active, .btn:first-child:active {
+
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.btn-primary:hover, .btn-primary:active {
+  background-color: rgba(47, 57, 64, 0.764); /* Légère variation au survol */
+}
+
+.btn-outline-primary {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-outline-primary:hover, .btn-outline-primary:active {
+  background-color: rgba(47, 57, 64, 0.764); /* Légère variation au survol */
+}
+
+.form-label {
+    margin: 0;
+    font-size: 0.9rem;;
+}
+
+.form-control::placeholder {
+    color: #cfcfcf9a;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.collapse, .collapsing {
+  transition: height 0.4s ease !important;
+}
+
+.red {
+  color: var(--red);
+}

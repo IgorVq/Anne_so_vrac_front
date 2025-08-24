@@ -1,0 +1,45 @@
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid;
+    display: inline-block;
+    text-align: center;
+    min-width: 100px;
+}
+
+/* Confirmée - bleu */
+.status-confirmed {
+    background-color: #cce7ff;
+    color: #004085;
+    border-color: #66c2ff;
+}
+
+/* En préparation - orange (comme dans la capture) */
+.status-preparation {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeaa7;
+}
+
+/* Disponible - vert (comme dans la capture) */
+.status-available {
+    background-color: #d1edcc;
+    color: #155724;
+    border-color: #00b894;
+}
+
+/* Retirée - gris (comme dans la capture) */
+.status-withdrawn {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border-color: #dee2e6;
+}
+
+/* Statut inconnu - gris */
+.status-unknown {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border-color: #d1d3d4;
+}
