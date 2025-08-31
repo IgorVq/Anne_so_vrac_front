@@ -63,7 +63,7 @@ const ReservationPage = () => {
     };
 
     const handleApplyPromoCode = async (e) => {
-        e.preventDefault();
+        if (e && e.preventDefault) e.preventDefault();
         try {
             const response = await ReservationServices.applyPromoCode(promoCode, userReservation.id_reservation);
             if (response.data.valid) {
@@ -164,7 +164,7 @@ const ReservationPage = () => {
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
                                 e.preventDefault();
-                                handleApplyPromoCode();
+                                handleApplyPromoCode(e);
                             }
                         }}
                     />
@@ -223,7 +223,56 @@ const ReservationPage = () => {
 
                     {/* Bloc de droite (résumé de commande) */}
                     <Container className="mb-4" style={{ backgroundColor: "#f8f9fa", border: '1px solid #dee2e6', borderRadius: '8px' }}>
-                        <OrderSummary />
+                        <div className="py-3 gap-3 d-flex flex-column justify-content-start">
+            {reservationItems.map((item, index) => (
+                <ProductReservationCard key={`${item.id_product}-${item.id_product_size}-${index}`} item={item} />
+            ))}
+            <div className="d-flex w-100 flex-column pt-3" style={{ borderTop: "1px solid #dee2e6" }}>
+                <div className="d-flex w-100 gap-2 justify-content-between">
+                    <Form.Control
+                        type="text"
+                        placeholder="Code promo"
+                        style={{ width: "100%" }}
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                handleApplyPromoCode(e);
+                            }
+                        }}
+                    />
+                    <Button className="p-2" variant="outline-primary" style={{ height: "38px" }} onClick={handleApplyPromoCode}>OK</Button>
+                </div>
+                <div className="mx-2">
+                    {promoCodeState == 1 ? (
+                        <span className="text-success">{promoCodeMessage}</span>
+                    ) : (
+                        <span className="text-danger">{promoCodeMessage}</span>
+                    )}
+                </div>
+            </div>
+
+            <div className="d-flex flex-column gap-4 p-2">
+                <div className="d-flex justify-content-between align-items-center w-100">
+                    <span>Sous-total {(reservationItems).length} {(reservationItems).length > 1 ? "articles" : "article"}</span>
+                    <span>{subTotal} €</span>
+                </div>
+                {promoCodeData && (
+                    <div className="d-flex justify-content-between align-items-center w-100 text-sucess">
+                        <span className="text-success">{promoCodeData.code}</span>
+                        <span className="text-success">-{(subTotal * promoCodeData.discount_percent / 100).toFixed(2)} €</span>
+                    </div>
+                )}
+                <div className="d-flex flex-column w-100">
+                    <div className="d-flex justify-content-between align-items-center w-100" style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+                        <span>Total</span>
+                        <span>{total} €</span>
+                    </div>
+                    <p style={{ color: "lightgray", fontSize: "0.85rem" }}>Taxes de {(total * 0.2).toFixed(2)} € incluses</p>
+                </div>
+            </div>
+        </div>
                     </Container>
 
                     {/* Informations de réservation */}
@@ -271,7 +320,56 @@ const ReservationPage = () => {
                         )}
                     </Container>
                     <Container style={{ borderLeft: '1px solid #dee2e6', backgroundColor: "#f8f9fa" }} className="col-5 py-3 gap-3 d-flex flex-column justify-content-start flex-grow-1">
-                        <OrderSummary />
+                        <div className="py-3 gap-3 d-flex flex-column justify-content-start">
+            {reservationItems.map((item, index) => (
+                <ProductReservationCard key={`${item.id_product}-${item.id_product_size}-${index}`} item={item} />
+            ))}
+            <div className="d-flex w-100 flex-column pt-3" style={{ borderTop: "1px solid #dee2e6" }}>
+                <div className="d-flex w-100 gap-2 justify-content-between">
+                    <Form.Control
+                        type="text"
+                        placeholder="Code promo"
+                        style={{ width: "100%" }}
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                handleApplyPromoCode(e);
+                            }
+                        }}
+                    />
+                    <Button className="p-2" variant="outline-primary" style={{ height: "38px" }} onClick={handleApplyPromoCode}>OK</Button>
+                </div>
+                <div className="mx-2">
+                    {promoCodeState == 1 ? (
+                        <span className="text-success">{promoCodeMessage}</span>
+                    ) : (
+                        <span className="text-danger">{promoCodeMessage}</span>
+                    )}
+                </div>
+            </div>
+
+            <div className="d-flex flex-column gap-4 p-2">
+                <div className="d-flex justify-content-between align-items-center w-100">
+                    <span>Sous-total {(reservationItems).length} {(reservationItems).length > 1 ? "articles" : "article"}</span>
+                    <span>{subTotal} €</span>
+                </div>
+                {promoCodeData && (
+                    <div className="d-flex justify-content-between align-items-center w-100 text-sucess">
+                        <span className="text-success">{promoCodeData.code}</span>
+                        <span className="text-success">-{(subTotal * promoCodeData.discount_percent / 100).toFixed(2)} €</span>
+                    </div>
+                )}
+                <div className="d-flex flex-column w-100">
+                    <div className="d-flex justify-content-between align-items-center w-100" style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+                        <span>Total</span>
+                        <span>{total} €</span>
+                    </div>
+                    <p style={{ color: "lightgray", fontSize: "0.85rem" }}>Taxes de {(total * 0.2).toFixed(2)} € incluses</p>
+                </div>
+            </div>
+        </div>
                     </Container>
                 </div>
             )}
