@@ -21,7 +21,6 @@ const ProductAdminPanel = () => {
     const [sortColumn, setSortColumn] = useState('id_product');
     const [sortDirection, setSortDirection] = useState('asc');
 
-    // États pour le formulaire
     const [formData, setFormData] = useState({
         nom: '',
         short_description: '',
@@ -39,16 +38,11 @@ const ProductAdminPanel = () => {
         formats: [],
         images: [],
         promotions: [],
-        discount_percent: '' // Nouvel état pour le pourcentage de discount
+        discount_percent: ''
     });
 
-    // États pour les formats
     const [newFormat, setNewFormat] = useState({ nom: '', type: 'unit' });
-
-    // États pour les images
     const [productImages, setProductImages] = useState([]);
-
-    // États pour les promotions
     const [selectedPromos, setSelectedPromos] = useState([]);
 
     useEffect(() => {
@@ -59,33 +53,27 @@ const ProductAdminPanel = () => {
         try {
             setLoading(true);
             
-            // Utiliser le nouvel endpoint admin qui retourne tout en une fois
             const [productsRes, categoriesRes, promosRes] = await Promise.all([
                 ProductServices.getProductsForAdmin(),
                 CategoriesServices.getAllCategories(),
                 PromoCodeServices.getAllPromoCodes()
             ]);
             
-            // Les produits devraient déjà contenir toutes les informations nécessaires
             let productData = [];
             if (productsRes && productsRes.data) {
                 if (productsRes.data.data && Array.isArray(productsRes.data.data)) {
-                    // Structure: { data: { data: [...] } }
                     productData = productsRes.data.data;
                 } else if (Array.isArray(productsRes.data)) {
-                    // Structure: { data: [...] }
                     productData = productsRes.data;
                 } else if (productsRes.data.products && Array.isArray(productsRes.data.products)) {
-                    // Structure: { data: { products: [...] } }
                     productData = productsRes.data.products;
                 }
             }
             
             setProducts(productData);
             setCategories(categoriesRes.data || []);
-            setPromoCodes(promosRes.data || []); // Codes promo génériques
+            setPromoCodes(promosRes.data || []);
         } catch (error) {
-            // Fallback : utiliser l'ancienne méthode si le nouvel endpoint n'existe pas encore
             try {
                 const [productsRes, categoriesRes, promosRes] = await Promise.all([
                     ProductServices.getAvailableProducts(),
@@ -102,7 +90,6 @@ const ProductAdminPanel = () => {
                     }
                 }
                 
-                // Enrichir avec les catégories
                 const categoriesData = categoriesRes.data || [];
                 const enrichedProducts = productData.map(product => {
                     const categoryId = product.id_category || product.category_id;
@@ -114,9 +101,9 @@ const ProductAdminPanel = () => {
                     return {
                         ...product,
                         category: category || null,
-                        formats: [], // Seront récupérés via l'endpoint spécialisé
-                        images: [],  // Seront récupérés via l'endpoint spécialisé
-                        discounts: [] // Seront récupérés via l'endpoint spécialisé
+                        formats: [],
+                        images: [],
+                        discounts: []
                     };
                 });
                 
@@ -127,7 +114,6 @@ const ProductAdminPanel = () => {
                 toast.warning('Endpoint admin/products non disponible, utilisation du fallback');
             } catch (fallbackError) {
                 toast.error('Erreur lors du chargement des données');
-                setProducts([]); // S'assurer qu'on a au moins un tableau vide
             }
         } finally {
             setLoading(false);
@@ -135,7 +121,6 @@ const ProductAdminPanel = () => {
     };
 
     const handleSort = (column) => {
-        // Adapter les noms de colonnes aux champs de l'API
         let apiColumn = column;
         if (column === 'nom') apiColumn = 'product_name';
         if (column === 'prix') apiColumn = 'price';
@@ -158,7 +143,6 @@ const ProductAdminPanel = () => {
             bVal = b.category?.category_name || b.category?.nom || '';
         }
 
-        // Gérer les valeurs nulles/undefined
         if (aVal == null) aVal = '';
         if (bVal == null) bVal = '';
 
@@ -175,7 +159,6 @@ const ProductAdminPanel = () => {
     });
 
     const getSortIcon = (column) => {
-        // Adapter les noms de colonnes aux champs de l'API
         let apiColumn = column;
         if (column === 'nom') apiColumn = 'product_name';
         if (column === 'prix') apiColumn = 'price';
@@ -215,22 +198,19 @@ const ProductAdminPanel = () => {
         if (product) {
             setEditingProduct(product);
             
-            // Adapter la structure des images pour le modal
             const adaptedImages = product.images ? product.images.map(img => ({
                 id: img.id_image,
-                url: `${API_URL}${img.image_url}`, // Construire l'URL complète
+                url: `${API_URL}${img.image_url}`,
                 ordre: img.order_nb,
-                image_url: img.image_url // Garder l'URL originale pour la sauvegarde
+                image_url: img.image_url 
             })) : [];
             
-            // Adapter et trier les formats par taille décroissante
             const adaptedFormats = (product.formats || []).map(format => ({
                 id: format.id_product_size || format.id,
                 nom: format.size || format.nom,
-                size: format.size || format.nom, // Compatibilité backend
+                size: format.size || format.nom,
                 type: format.type
             })).sort((a, b) => {
-                // Trier les formats existants par taille décroissante
                 const sizeA = parseFloat(a.nom || a.size) || 0;
                 const sizeB = parseFloat(b.nom || b.size) || 0;
                 return sizeB - sizeA;
@@ -258,7 +238,6 @@ const ProductAdminPanel = () => {
             setProductImages(adaptedImages);
             setSelectedPromos(product.discounts?.map(d => d.id_discount) || []);
             
-            // Définir le type par défaut basé sur les formats existants
             if (adaptedFormats && adaptedFormats.length > 0) {
                 setNewFormat({ nom: '', type: adaptedFormats[0].type });
             } else {
@@ -292,22 +271,18 @@ const ProductAdminPanel = () => {
     };
 
     const addFormat = () => {
-        // Vérifications spécifiques selon le type
         if (newFormat.type === 'unit') {
-            // Pour le type unit : vérifier qu'il n'y en a pas déjà un
             if (formData.formats.some(f => f.type === 'unit')) {
                 toast.warning('Un format "Unité" existe déjà. Vous ne pouvez en avoir qu\'un seul.');
                 return;
             }
         } else {
-            // Pour les autres types : vérifier que la taille est fournie
             if (!newFormat.nom.trim()) {
                 toast.warning('La taille du format est requise');
                 return;
             }
         }
 
-        // Vérifier la cohérence des types si il y a déjà des formats
         if (formData.formats.length > 0) {
             const existingType = formData.formats[0].type;
             if (existingType !== newFormat.type) {
@@ -318,14 +293,13 @@ const ProductAdminPanel = () => {
         }
 
         const formatToAdd = {
-            id: Date.now(), // Temporaire pour l'affichage
+            id: Date.now(),
             nom: newFormat.type === 'unit' ? '1' : newFormat.nom,
-            size: newFormat.type === 'unit' ? '1' : newFormat.nom, // Compatibilité backend
+            size: newFormat.type === 'unit' ? '1' : newFormat.nom,
             type: newFormat.type
         };
 
         const newFormats = [...formData.formats, formatToAdd].sort((a, b) => {
-            // Trier par taille en ordre décroissant après ajout
             const sizeA = parseFloat(a.nom || a.size) || 0;
             const sizeB = parseFloat(b.nom || b.size) || 0;
             return sizeB - sizeA;
@@ -336,13 +310,10 @@ const ProductAdminPanel = () => {
             formats: newFormats
         }));
 
-        // Réinitialiser le formulaire en gardant le même type
         setNewFormat({ 
             nom: '', 
             type: newFormat.type
         });
-        
-        // Pas de toast ici, seulement lors de la sauvegarde
     };
 
     const removeFormat = (index) => {
@@ -350,11 +321,9 @@ const ProductAdminPanel = () => {
             ...prev,
             formats: prev.formats.filter((_, i) => i !== index)
         }));
-        // Pas de toast ici, seulement lors de la sauvegarde
     };
 
     const handleImageUpload = (imagePath) => {
-        // Vérifier la limite de 4 images
         if (productImages.length >= 4) {
             toast.warning('Vous ne pouvez pas ajouter plus de 4 images par produit');
             return;
@@ -362,8 +331,8 @@ const ProductAdminPanel = () => {
         
         const newImage = {
             id: Date.now(),
-            url: `${API_URL}${imagePath}`, // URL complète pour l'affichage
-            image_url: imagePath, // Chemin relatif pour la sauvegarde
+            url: `${API_URL}${imagePath}`,
+            image_url: imagePath,
             ordre: productImages.length + 1
         };
         
@@ -391,10 +360,9 @@ const ProductAdminPanel = () => {
         if (targetIndex >= 0 && targetIndex < newImages.length) {
             [newImages[index], newImages[targetIndex]] = [newImages[targetIndex], newImages[index]];
             
-            // Mettre à jour l'ordre local
             newImages.forEach((img, i) => {
                 img.ordre = i + 1;
-                img.order_nb = i + 1; // Garder aussi order_nb pour la cohérence
+                img.order_nb = i + 1;
             });
             
             setProductImages(newImages);
@@ -402,8 +370,6 @@ const ProductAdminPanel = () => {
                 ...prev,
                 images: newImages
             }));
-            
-            // Indication visuelle que des changements sont en attente
             toast.info('Ordre modifié - Cliquez sur "Modifier" pour confirmer');
         }
     };
@@ -423,11 +389,9 @@ const ProductAdminPanel = () => {
         });
     };
 
-    // Fonction pour gérer les discounts
     const handleDiscountChange = async (productId, discountPercent) => {
         try {
             if (!productId) {
-                // Si c'est un nouveau produit, on stocke juste la valeur pour l'utiliser après création
                 setFormData(prev => ({
                     ...prev,
                     discount_percent: discountPercent
@@ -436,7 +400,6 @@ const ProductAdminPanel = () => {
             }
 
             if (discountPercent === '' || discountPercent === '0' || parseInt(discountPercent) === 0) {
-                // Supprimer le discount existant
                 const existingDiscounts = await DiscountServices.getProductDiscounts(productId);
                 if (existingDiscounts.data && existingDiscounts.data.length > 0) {
                     await DiscountServices.deleteDiscount(existingDiscounts.data[0].id_discount);
@@ -449,18 +412,15 @@ const ProductAdminPanel = () => {
                     return;
                 }
 
-                // Vérifier s'il y a déjà un discount
                 const existingDiscounts = await DiscountServices.getProductDiscounts(productId);
                 
                 if (existingDiscounts.data && existingDiscounts.data.length > 0) {
-                    // Mettre à jour le discount existant
                     await DiscountServices.updateDiscount(existingDiscounts.data[0].id_discount, {
                         discount_percent: percent,
                         id_product: productId
                     });
                     toast.success('Discount mis à jour avec succès');
                 } else {
-                    // Créer un nouveau discount
                     await DiscountServices.createDiscount({
                         discount_percent: percent,
                         id_product: productId
@@ -469,7 +429,6 @@ const ProductAdminPanel = () => {
                 }
             }
             
-            // Rafraîchir les données
             fetchData();
         } catch (error) {
             toast.error('Erreur lors de la gestion du discount');
@@ -485,7 +444,6 @@ const ProductAdminPanel = () => {
         }
 
         try {
-            // Données de base du produit
             const basicProductData = {
                 product_name: formData.nom,
                 short_description: formData.short_description || '',
@@ -504,7 +462,6 @@ const ProductAdminPanel = () => {
 
             let response;
             if (editingProduct) {
-                // Vérifier s'il y a des changements d'images
                 const originalImages = editingProduct.images || [];
                 const currentImages = productImages || [];
                 
@@ -517,7 +474,6 @@ const ProductAdminPanel = () => {
                                origImg.image_url !== currentImg.image_url;
                     });
 
-                // Vérifier s'il y a des changements de formats (comparaison plus précise)
                 const originalFormats = (editingProduct.formats || []).map(f => ({
                     size: f.size || f.nom,
                     type: f.type
@@ -546,12 +502,10 @@ const ProductAdminPanel = () => {
                     });
 
                 if (hasImageChanges || hasFormatChanges) {
-                    // Si il y a des changements d'images ou de formats, utiliser l'endpoint admin
                     const updateData = {
                         ...basicProductData
                     };
                     
-                    // Ajouter les images seulement si elles ont changé
                     if (hasImageChanges) {
                         updateData.images = currentImages.map((img, index) => ({
                             id_image: img.id || null,
@@ -560,7 +514,6 @@ const ProductAdminPanel = () => {
                         }));
                     }
                     
-                    // Ajouter les formats seulement si ils ont changé
                     if (hasFormatChanges) {
                         updateData.formats = currentFormats.map((format, index) => ({
                             size: format.size,
@@ -575,7 +528,6 @@ const ProductAdminPanel = () => {
                     );
                     toast.success('Produit modifié avec succès');
                     
-                    // Gérer le discount après modification
                     const currentDiscountPercent = formData.discount_percent;
                     const originalDiscountPercent = editingProduct.discounts && editingProduct.discounts.length > 0 
                         ? editingProduct.discounts[0].discount_percent.toString() 
@@ -585,14 +537,12 @@ const ProductAdminPanel = () => {
                         await handleDiscountChange(editingProduct.id_product || editingProduct.id, currentDiscountPercent);
                     }
                 } else {
-                    // Pas de changements d'images ni de formats, utiliser l'endpoint classique
                     response = await ProductServices.updateProduct(
                         editingProduct.id_product || editingProduct.id, 
                         basicProductData
                     );
                     toast.success('Produit modifié avec succès');
                     
-                    // Gérer le discount après modification
                     const currentDiscountPercent = formData.discount_percent;
                     const originalDiscountPercent = editingProduct.discounts && editingProduct.discounts.length > 0 
                         ? editingProduct.discounts[0].discount_percent.toString() 
@@ -603,10 +553,8 @@ const ProductAdminPanel = () => {
                     }
                 }
             } else {
-                // Création : utiliser l'endpoint admin avec toutes les relations
                 const productData = {
                     ...basicProductData,
-                    // Relations
                     formats: formData.formats.map((format, index) => ({
                         size: format.nom || format.size,
                         type: format.type || 'unit',
@@ -618,13 +566,12 @@ const ProductAdminPanel = () => {
                         order_nb: index + 1
                     })),
                     
-                    discounts: [] // Pour l'instant, les discounts seront gérés séparément
+                    discounts: [] 
                 };
                 
                 response = await ProductServices.createProductAdmin(productData);
                 toast.success('Produit créé avec succès');
                 
-                // Gérer le discount après création du produit
                 if (formData.discount_percent && parseInt(formData.discount_percent) > 0) {
                     const productId = response.data.id_product || response.data.product?.id_product;
                     if (productId) {
@@ -636,7 +583,6 @@ const ProductAdminPanel = () => {
             closeModal();
             fetchData();
         } catch (error) {
-            // Fallback vers les anciens endpoints si les admin ne fonctionnent pas
             try {
                 const basicProductData = {
                     nom: formData.nom,
@@ -664,12 +610,10 @@ const ProductAdminPanel = () => {
     const handleDelete = async (productId) => {
         if (window.confirm('Êtes-vous sûr de vouloir supprimer ce produit et toutes ses relations ?')) {
             try {
-                // Utiliser l'endpoint admin pour la suppression
                 await ProductServices.deleteProductAdmin(productId);
                 toast.success('Produit supprimé avec succès');
                 fetchData();
             } catch (error) {
-                // Fallback vers l'ancien endpoint
                 try {
                     await ProductServices.deleteProduct(productId);
                     toast.success('Produit supprimé avec succès (mode basique)');
@@ -744,7 +688,6 @@ const ProductAdminPanel = () => {
                                 <td>
                                     {product.formats?.length > 0 ? (
                                         (() => {
-                                            // Déterminer le type principal et compter les formats actifs
                                             const activeFormats = product.formats.filter(f => f.active !== false);
                                             if (activeFormats.length === 0) {
                                                 return <Badge bg="secondary">Aucun actif</Badge>;
@@ -772,7 +715,6 @@ const ProductAdminPanel = () => {
                                     {product.images?.length > 0 ? (
                                         <div className="d-flex align-items-center">
                                             {(() => {
-                                                // Trouver l'image principale (order_nb = 1)
                                                 const mainImage = product.images.find(img => img.order_nb === 1) || product.images[0];
                                                 const additionalCount = product.images.length - 1;
                                                 
@@ -1058,7 +1000,6 @@ const ProductAdminPanel = () => {
                                             }));
                                         }}
                                         disabled={(() => {
-                                            // Si il y a déjà des formats, bloquer le changement de type
                                             if (formData.formats.length > 0) {
                                                 return true;
                                             }
@@ -1075,7 +1016,6 @@ const ProductAdminPanel = () => {
                                         variant="outline-primary" 
                                         onClick={addFormat}
                                         disabled={(() => {
-                                            // Si type unit et qu'il y a déjà un format unit, désactiver
                                             if (newFormat.type === 'unit' && 
                                                 formData.formats.some(f => f.type === 'unit')) {
                                                 return true;
@@ -1088,7 +1028,6 @@ const ProductAdminPanel = () => {
                                 </Col>
                             </Row>
                             
-                            {/* Message d'information selon le contexte */}
                             {formData.formats.length > 0 && (
                                 <div className="alert alert-info mb-3">
                                     {formData.formats.some(f => f.type === 'unit') 

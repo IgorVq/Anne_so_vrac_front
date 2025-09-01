@@ -8,7 +8,7 @@ const OrderHistory = () => {
     const { user } = useContext(AuthContext);
     const [activeOrders, setActiveOrders] = useState([]);
     const [pastOrders, setPastOrders] = useState([]);
-    const [activeTab, setActiveTab] = useState("active"); // "active" ou "past"
+    const [activeTab, setActiveTab] = useState("active");
 
     const fetchOrderHistory = async () => {
         if (user) {

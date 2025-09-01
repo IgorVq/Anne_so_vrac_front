@@ -20,15 +20,12 @@ const ProductCard = ({ productId }) => {
     }
 
     useEffect(() => {
-        if (productId) {
+        if (productId)
             fetchProductDetails();
-        }
-    }
-        , [productId]);
+    }, [productId]);
 
     return (
         <Card onClick={() => navigate("/product/" + productId)} className="product-card position-relative" style={{ borderRadius: "12px", overflow: "hidden", border: "none", boxShadow: "0 4px 8px rgba(0,0,0,0.1)", cursor: "pointer" }}>
-            {/* Container pour les badges */}
             <div className="position-absolute w-100 d-flex justify-content-between align-items-start product-badges" style={{ top: "3px", left: "0", right: "0", zIndex: 2, padding: "0 3px" }}>
                 <div className="d-flex flex-column">
                     {productDetails.discount_percent != null && (

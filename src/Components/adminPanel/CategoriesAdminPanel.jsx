@@ -97,7 +97,6 @@ const CategoriesAdminPanel = () => {
         }
     };
 
-    // Fonction pour gérer le tri
     const handleSort = (key) => {
         let direction = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -106,7 +105,6 @@ const CategoriesAdminPanel = () => {
         setSortConfig({ key, direction });
     };
 
-    // Fonction pour trier les données
     const getSortedCategories = () => {
         if (!sortConfig.key) return categories;
 
@@ -114,7 +112,6 @@ const CategoriesAdminPanel = () => {
             let aValue = a[sortConfig.key];
             let bValue = b[sortConfig.key];
 
-            // Gestion spéciale pour les différents types de données
             if (sortConfig.key === 'id_category') {
                 aValue = Number(aValue);
                 bValue = Number(bValue);
@@ -133,10 +130,9 @@ const CategoriesAdminPanel = () => {
         });
     };
 
-    // Fonction pour obtenir l'icône de tri
     const getSortIcon = (key) => {
         if (sortConfig.key !== key) {
-            return ''; // Pas d'icône si la colonne n'est pas triée
+            return '';
         }
         return sortConfig.direction === 'asc' ? '▲' : '▼';
     };

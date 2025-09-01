@@ -119,7 +119,7 @@ const LoginPage = () => {
     return <>
         <Container>
             <h2 className="text-center mt-4 mb-5">Connexion</h2>
-            <div className="d-flex flex-row justify-content-around mb-4">
+            <div className="d-flex flex-column flex-md-row justify-content-around mb-4">
                 <div className="col-md-5">
                     <h3 className="text-center mb-4">Vous avez déjà un compte ?</h3>
                     <Form onSubmit={handleLoginSubmit}>

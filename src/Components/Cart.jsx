@@ -1,4 +1,3 @@
-// Cart.js
 import { Offcanvas, Button, Form } from 'react-bootstrap';
 import { useCart } from '../Contexts/CartContext';
 import AuthContext from '../Contexts/AuthContext';
@@ -94,7 +93,7 @@ export default function Cart({ show, onHide }) {
                   disabled={totalPrice < 0.50}
                   className="w-100"
                   onClick={() => { 
-                    onHide(); // Ferme le panier avant de naviguer
+                    onHide();
                     navigate("/reservation");
                   }}
                   style={{ 

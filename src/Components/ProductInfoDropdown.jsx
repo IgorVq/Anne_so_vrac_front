@@ -9,7 +9,6 @@ const ProductInfoDropdown = ({ productInfo }) => {
     setOpenId(prev => (prev === id ? null : id));
   };
 
-  // Helper pour savoir si une section a du contenu non vide
   const isNotEmpty = (str) => str && str.trim().length > 0;
 
   const sections = [
@@ -33,10 +32,8 @@ const ProductInfoDropdown = ({ productInfo }) => {
     }
   ];
 
-  // Filtrer les sections qui ont du contenu à afficher
   const validSections = sections.filter(section => isNotEmpty(section.content));
 
-  // Si aucune section valide, ne rien afficher
   if (validSections.length === 0) {
     return null;
   }

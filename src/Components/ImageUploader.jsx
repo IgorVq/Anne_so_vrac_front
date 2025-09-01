@@ -34,7 +34,7 @@ const ImageUploader = ({ onUploadSuccess }) => {
             });
 
             setMessage("Image envoyée avec succès !");
-            onUploadSuccess?.(res.data.path); // Optionnel : notifie le parent
+            onUploadSuccess?.(res.data.path);
         } catch (err) {
             setMessage("Erreur lors de l'envoi de l'image.");
             console.error(err);

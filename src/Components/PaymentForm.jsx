@@ -29,15 +29,15 @@ const PaymentForm = ({ paymentIntent, updatedTotal, reservation, onPaymentSucces
   const elements = useElements();
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const [isFormLoading, setIsFormLoading] = useState(true); // Indique si le formulaire est en train de charger
-  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false); // Indique si le paiement est en train d'être traité
+  const [isFormLoading, setIsFormLoading] = useState(true);
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const [clientSecret, setClientSecret] = useState(null);
   const [totalAmount, setTotalAmount] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements || !clientSecret) return;
-    setIsPaymentProcessing(true); // Le paiement est en train de se traiter
+    setIsPaymentProcessing(true);
     const card = elements.getElement(CardNumberElement);
     const { error, paymentIntent: confirmedPaymentIntent } = await stripe.confirmCardPayment(
       clientSecret,
@@ -48,7 +48,7 @@ const PaymentForm = ({ paymentIntent, updatedTotal, reservation, onPaymentSucces
         },
       }
     );
-    setIsPaymentProcessing(false); // Le traitement est terminé
+    setIsPaymentProcessing(false);
     if (error) {
       setMessage(error.message);
     } else if (confirmedPaymentIntent.status === "succeeded") {

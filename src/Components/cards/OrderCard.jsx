@@ -14,15 +14,15 @@ const OrderCard = ({ order }) => {
     const getStatusBadgeClass = (status) => {
         switch (status) {
             case "confirmed":
-                return "status-badge status-confirmed"; // Confirmée - bleu
+                return "status-badge status-confirmed"; 
             case "preparation":
-                return "status-badge status-preparation"; // En préparation - orange
+                return "status-badge status-preparation"; 
             case "available":
-                return "status-badge status-available"; // Disponible - vert
+                return "status-badge status-available"; 
             case "withdrawn":
-                return "status-badge status-withdrawn"; // Retirée - gris
+                return "status-badge status-withdrawn";
             default:
-                return "status-badge status-unknown"; // Statut inconnu - gris
+                return "status-badge status-unknown";
         }
     };
 

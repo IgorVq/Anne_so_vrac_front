@@ -108,7 +108,6 @@ const PromocodeAdminPanel = () => {
         return new Date(dateString).toLocaleDateString('fr-FR');
     };
 
-    // Fonction pour gérer le tri
     const handleSort = (key) => {
         let direction = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -117,7 +116,6 @@ const PromocodeAdminPanel = () => {
         setSortConfig({ key, direction });
     };
 
-    // Fonction pour trier les données
     const getSortedPromoCodes = () => {
         if (!sortConfig.key) return promoCodes;
 
@@ -125,7 +123,6 @@ const PromocodeAdminPanel = () => {
             let aValue = a[sortConfig.key];
             let bValue = b[sortConfig.key];
 
-            // Gestion spéciale pour les différents types de données
             if (sortConfig.key === 'discount_percent' || sortConfig.key === 'id_promo_code') {
                 aValue = Number(aValue);
                 bValue = Number(bValue);
@@ -133,7 +130,6 @@ const PromocodeAdminPanel = () => {
                 aValue = String(aValue).toLowerCase();
                 bValue = String(bValue).toLowerCase();
             } else if (sortConfig.key === 'valid_from' || sortConfig.key === 'valid_to') {
-                // Tri par date
                 aValue = new Date(aValue);
                 bValue = new Date(bValue);
             }
@@ -148,10 +144,9 @@ const PromocodeAdminPanel = () => {
         });
     };
 
-    // Fonction pour obtenir l'icône de tri
     const getSortIcon = (key) => {
         if (sortConfig.key !== key) {
-            return ''; // Pas d'icône si la colonne n'est pas triée
+            return '';
         }
         return sortConfig.direction === 'asc' ? '▲' : '▼';
     };

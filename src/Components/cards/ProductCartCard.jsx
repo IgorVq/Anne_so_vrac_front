@@ -23,7 +23,6 @@ const ProductCartCard = ({ cartID }) => {
             }
         } catch (error) {
             console.error("Error fetching product details:", error);
-            // Si l'élément du panier n'existe plus, on peut le retirer de l'affichage
             setProductDetails({});
         }
     };
@@ -91,7 +90,7 @@ const ProductCartCard = ({ cartID }) => {
                         onClick={async () => {
                             if (productDetails.quantity > 1) {
                                 await updateQuantity(cartID, productDetails.quantity - 1);
-                                fetchProductDetails(); // 🔁 Recharge les infos après la mise à jour
+                                fetchProductDetails(); 
                             }
                         }}
                     />
@@ -100,7 +99,7 @@ const ProductCartCard = ({ cartID }) => {
                         style={{ cursor: "pointer", height: "12px", width: "12px" }}
                         onClick={async () => {
                             await updateQuantity(cartID, productDetails.quantity + 1);
-                            fetchProductDetails(); // 🔁 Recharge les infos après la mise à jour
+                            fetchProductDetails(); 
                         }}
                     />
                 </div>

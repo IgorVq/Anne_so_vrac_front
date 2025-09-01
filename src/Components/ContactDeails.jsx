@@ -29,7 +29,7 @@ const ContactDetails = () => {
             const response = await UserServices.updateUserDetails(userDetails);
             setUserDetails(response.data);
             setShowEditForm(false);
-            fetchUserDetails(); // Refresh user details after update
+            fetchUserDetails();
         } catch (error) {
             console.error("Error updating user details:", error);
         }

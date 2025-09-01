@@ -25,7 +25,6 @@ function deleteInfoMag(id) {
     return axios.delete(API_URL + '/infomag/' + id);
 }
 
-// Fonctions spécifiques pour les messages topbar
 function getTopbarMessages() {
     return axios.get(API_URL + '/infoMag/topbar/messages');
 }

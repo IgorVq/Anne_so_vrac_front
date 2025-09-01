@@ -22,7 +22,6 @@ const ProductListPage = () => {
         try {
             let response;
             if (searchQuery) {
-                // Si nous avons un paramètre de recherche, récupérer tous les produits puis filtrer
                 response = await ProductServices.getAvailableProducts();
             } else if (offerType == "promo") {
                 response = await ProductServices.getAvailablePromoProducts();
@@ -73,7 +72,6 @@ const ProductListPage = () => {
         }
     }
 
-    // Fonction pour calculer le prix final avec remise
     const calculateFinalPrice = (product) => {
         if (product.discount_percent && product.discount_percent > 0) {
             return product.price * (1 - product.discount_percent / 100);
@@ -81,7 +79,6 @@ const ProductListPage = () => {
         return product.price;
     }
 
-    // Fonction pour trier les produits
     const sortProducts = (productsToSort, sortOrder) => {
         if (!sortOrder || sortOrder === "none") return productsToSort;
         
@@ -125,7 +122,6 @@ const ProductListPage = () => {
         setPriceSort(sortOrder);
         
         if (sortOrder === "none") {
-            // Revenir au tri de base (ordre original)
             if (selectedCategory === "" || selectedCategory === "all") {
                 setFilteredProducts(products);
             } else {
@@ -133,14 +129,12 @@ const ProductListPage = () => {
                 setFilteredProducts(filtered);
             }
         } else {
-            // Appliquer le tri sur les produits actuellement filtrés
             const sortedProducts = sortProducts(filteredProducts, sortOrder);
             setFilteredProducts(sortedProducts);
         }
     }
 
     useEffect(() => {
-        // Ne pas réinitialiser filteredProducts si nous sommes en mode recherche
         if (!searchQuery) {
             if (selectedCategory === "") {
                 setFilteredProducts(products);
@@ -153,9 +147,7 @@ const ProductListPage = () => {
     useEffect(() => {
         fetchProducts();
         fetchCategory();
-        // Afficher le titre seulement après avoir effectué une recherche
         if (searchQuery) {
-            // Délai pour permettre à l'utilisateur de voir que la recherche a été effectuée
             const timer = setTimeout(() => {
                 setShowSearchTitle(true);
             }, 100);
@@ -165,7 +157,6 @@ const ProductListPage = () => {
         }
     }, [offerType, searchQuery]);
 
-    // Cacher le titre quand l'utilisateur clique quelque part (probablement pour chercher à nouveau)
     useEffect(() => {
         const handleClick = () => {
             if (searchQuery && showSearchTitle) {

@@ -64,7 +64,6 @@ const Profile = () => {
                 <h2>Ma dernière commande</h2>
                 { lastOrder ? (
                     <OrderCard order={lastOrder} />
-                    // <p>Commande ID: {lastOrder.id_reservation} - Statut: {lastOrder.status}</p>
                 ) : (
                     <p>Aucune commande trouvée.</p>
                 )}

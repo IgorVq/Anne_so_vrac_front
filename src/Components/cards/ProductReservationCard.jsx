@@ -47,8 +47,8 @@ const ProductReservationCard = ({ item }) => {
                         position: "absolute",
                         bottom: "6px",
                         right: "0",
-                        transform: "translate(50%, 50%)", // centre la bulle sur le coin
-                        backgroundColor: "rgba(248, 249, 250, 0.95)", // gris clair transparent
+                        transform: "translate(50%, 50%)", 
+                        backgroundColor: "rgba(248, 249, 250, 0.95)", 
                         borderRadius: "50%",
                         padding: "4px 8px",
                         fontSize: "12px",

@@ -17,11 +17,9 @@ const ProfilePage = () => {
 
     const handleLogout = () => {
         AuthServices.logout();
-        // Mettre à jour le contexte d'authentification
         setIsConnected(false);
         setRole(null);
         setUser(null);
-        // Vider le panier en local uniquement
         setCartItems([]);
         navigate("/login");
     };

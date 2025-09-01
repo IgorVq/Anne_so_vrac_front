@@ -21,7 +21,7 @@ const ReservationPage = () => {
     const [userDetails, setUserDetails] = useState({});
     const [reservationItems, setReservationItems] = useState([]);
     const [promoCode, setPromoCode] = useState("");
-    const [promoCodeState, setPromoCodeState] = useState(0); // 0: not applied, 1: applied, 2: error
+    const [promoCodeState, setPromoCodeState] = useState(0);
     const [promoCodeMessage, setPromoCodeMessage] = useState("");
     const [promoCodeData, setPromoCodeData] = useState(null);
     const reservationInitialized = useRef(false);
@@ -32,7 +32,6 @@ const ReservationPage = () => {
     const [userReservation, setUserReservation] = useState(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
-    // Hook pour détecter les changements de taille d'écran
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 992);
@@ -43,7 +42,7 @@ const ReservationPage = () => {
     }, []);
 
     const initializeReservation = async () => {
-        if (reservationInitialized.current) return; // Éviter les appels multiples
+        if (reservationInitialized.current) return;
         reservationInitialized.current = true;
         
         try {
@@ -57,7 +56,7 @@ const ReservationPage = () => {
         } catch (error) {
             console.error("Error checking reservation:", error);
             toast.error("Erreur lors de la vérification de la réservation.");
-            reservationInitialized.current = false; // Permettre un nouveau essai en cas d'erreur
+            reservationInitialized.current = false;
             return null;
         }
     };
@@ -86,8 +85,7 @@ const ReservationPage = () => {
     const handlePaymentSuccess = async (reservationData) => {
         try {
             const response = await ReservationServices.confirmPayment(userReservation.id_reservation, reservationData);
-            
-            // Vider seulement le state local du panier (le backend l'a déjà vidé)
+        
             clearCartLocal();
             
             navigate('/confirmation', { 
@@ -135,8 +133,6 @@ const ReservationPage = () => {
 
     }, [promoCodeData, subTotal]);
 
-
-    // Composant pour les informations de réservation
     const ReservationInfo = () => (
         <div className="p-3">
             <h4 className="text-center mb-4">Information de reservation</h4>
@@ -147,7 +143,6 @@ const ReservationPage = () => {
         </div>
     );
 
-    // Composant pour le bloc de droite (résumé de commande)
     const OrderSummary = () => (
         <div className="py-3 gap-3 d-flex flex-column justify-content-start">
             {reservationItems.map((item, index) => (

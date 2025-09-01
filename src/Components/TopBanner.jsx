@@ -28,7 +28,7 @@ const TopBanner = () => {
     
         const interval = setInterval(() => {
           setIndex((prev) => (prev + 1) % messages.length);
-        }, 8000); // change every 8 sec
+        }, 8000);
     
         return () => clearInterval(interval);
       }, [messages]);
